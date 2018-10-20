@@ -10,7 +10,7 @@ function registerUser (req, res){
         points: 0,
         name: ""
     }).then(user => {
-        return res.status(201).json({success: true, message: 'Ok', phone_num: user.phone_num});
+        return res.status(201).json({success: true, message: 'Ok', phone_num: user.phone_number});
     }).catch(function (err) {
         if (err) res.status(500).json({
             success: false,
