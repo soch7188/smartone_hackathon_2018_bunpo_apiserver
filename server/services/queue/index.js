@@ -26,24 +26,7 @@ function updateQueue (req, res){
     // Update Queue depending on Floor and Brand
 
 
-    // Update User Access to Queue Data
-    models.AccessRights.update({
-        queue_access: true
-    }, {
-        where: {
-            user_phone_number: req.body.phone_number
-        }
-    }).spread((affectedCount, affectedRows) => {
-        console.log('AccessRights update successful. affectedCount: ' + affectedCount + ', affectedRows: ' + affectedRows);
-        if (affectedCount !== 0) {
-            return res.status(200).json({success: true, message: "Successfully updated queue access."})
-        }
-        else {
-            return res.status(200).json({success: false, message: "No rows affected."})
-        }
-    }).catch(function (err){
-        return res.status(403).json({success: false, message: err.message + 'User AccessRight Update failure'})
-    });
+    c
 }
 
 

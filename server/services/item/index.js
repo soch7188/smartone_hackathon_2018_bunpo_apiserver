@@ -37,14 +37,33 @@ function updateItemPrice (req, res){
             });
         }
     });
+
+    // Update User Access to Queue Data
+    models.AccessRights.update({
+        item_access: true
+    }, {
+        where: {
+            user_phone_number: req.body.phone_number
+        }
+    }).spread((affectedCount, affectedRows) => {
+        console.log('AccessRights update successful. affectedCount: ' + affectedCount + ', affectedRows: ' + affectedRows);
+        if (affectedCount !== 0) {
+            return res.status(200).json({success: true, message: "Successfully updated item access."})
+        }
+        else {
+            return res.status(200).json({success: false, message: "No rows affected."})
+        }
+    }).catch(function (err){
+        return res.status(403).json({success: false, message: err.message + 'User AccessRight Update failure'})
+    });
 }
 
 
 function getItemPrice (req, res){
     models.Item.find({
         where: {
-            name: req.params.name,
-            brand: req.params.brand
+            name: req.param.name,
+            brand: req.param.brand
         }
     }).then(result => {
         console.log(res);
