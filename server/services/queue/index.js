@@ -48,8 +48,8 @@ function updateQueue (req, res){
 
 
 function getQueue (req, res){
-    const floor = req.params.floor;
-    const brand = req.params.brand;
+    const floor = req.param.floor;
+    const brand = req.param.brand;
 
     models.Queue.find({
         where: {
