@@ -8,11 +8,24 @@ function updateQueue (req, res){
         crowdedness: req.body.crowdedness
     }, {
         where: {
-            floor: req.body.floor,
             brand: req.body.brand
         }
     }).spread((affectedCount, affectedRows) => {
         console.log('Queue update successful. affectedCount: ' + affectedCount + ', affectedRows: ' + affectedRows);
+        models.User.find({
+            where:{
+                phone_number: req.body.phone_number
+            }
+        }).then(user=>{
+            models.User.update({
+                points: user.points + 1
+            }), {
+                where: {
+                    phone_number: req.body.phone_number
+                }
+            }
+        })
+        
         if (affectedCount !== 0) {
             return res.status(200).json({success: true, message: "Successfully updated Queue."})
         }
@@ -24,14 +37,10 @@ function updateQueue (req, res){
     });
 
     // Update Queue depending on Floor and Brand
-
-
-    c
 }
 
 
 function getQueue (req, res){
-    const floor = req.param.floor;
     const brand = req.param.brand;
 
     models.Queue.find({

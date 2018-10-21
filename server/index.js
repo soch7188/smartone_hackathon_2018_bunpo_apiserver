@@ -31,33 +31,33 @@ module.exports = function() {
 		server.set('jwt_secret', config.jwt_secret); // secret variable
 
 		// Enable CORS
-		server.use(function(req, res, next) {
-			console.log('Enable CORS')
-			let allowedOrigins = ['http://localhost:4000', 'http://localhost:80','http://localhost', 'http://localhost:8081',
-				"https://bundleport.com", "https://www.bundleport.com", "https://dev.bundleport.com",
-				"http://bundleport.com", "http://www.bundleport.com", "http://dev.bundleport.com",
-				'https://console.bundleport.com', 'http://console.bundleport.com'];
+		// server.use(function(req, res, next) {
+		// 	console.log('Enable CORS')
+		// 	let allowedOrigins = ['http://localhost:4000', 'http://localhost:80','http://localhost', 'http://localhost:8081',
+		// 		"https://bundleport.com", "https://www.bundleport.com", "https://dev.bundleport.com",
+		// 		"http://bundleport.com", "http://www.bundleport.com", "http://dev.bundleport.com",
+		// 		'https://console.bundleport.com', 'http://console.bundleport.com'];
 
-			let origin
-			if (req.headers){
-				origin = req.headers.origin;
-			}
-			if(allowedOrigins.indexOf(origin) > -1){
-				res.header('Access-Control-Allow-Origin', origin);
-			} else {
-				res.header('Access-Control-Allow-Origin', '*');
-			}
+		// 	let origin
+		// 	if (req.headers){
+		// 		origin = req.headers.origin;
+		// 	}
+		// 	if(allowedOrigins.indexOf(origin) > -1){
+		// 		res.header('Access-Control-Allow-Origin', origin);
+		// 	} else {
+		// 		res.header('Access-Control-Allow-Origin', '*');
+		// 	}
 
-			if (origin){
-				console.log('origin: ' + origin);
-				res.setHeader('log-origin', origin)
-			}
+		// 	if (origin){
+		// 		console.log('origin: ' + origin);
+		// 		res.setHeader('log-origin', origin)
+		// 	}
 
-			res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-			res.header("Access-Control-Allow-Credentials", true);
-			res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Set-Cookie");
-			next();
-		});
+		// 	res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+		// 	res.header("Access-Control-Allow-Credentials", true);
+		// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Set-Cookie");
+		// 	next();
+		// });
 
 		// Returns middleware that parses json
 		server.use(bodyParser.json());

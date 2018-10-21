@@ -2,67 +2,79 @@ const models = require('../../models');
 
 function getUser (req, res){
     models.User.find({
-        phone_number: req.param.phone_number
-    }).then(user => {
-        if (user){
-            return res.status(201).json({success: true, message: 'Ok', user: user});
-        } else {
-            return res.status(201).json({success: false, message: 'User does not exist'});
+        where: {
+            phone_number: req.query.phone_number
         }
-    })
+    }).then(user => {
+        return res.status(201).json({success: true, message: 'Ok', user: user});
+    }).catch(error =>{
+        return res.status(404).json({success: false, message: 'User does not exist'});
+    });
 }
 
 function getUserHasName (req, res){
     models.User.find({
-        phone_number: req.param.phone_number
-    }).then(user => {
-        if (user){
-            return res.status(201).json({success: true, message: 'Ok', user: user});
-        } else {
-            return res.status(201).json({success: false, message: 'User does not exist'});
+        where: {
+            phone_number: req.query.phone_number
         }
-    })
+    }).then(user => {
+        return res.status(201).json({success: true, message: 'Ok', user: user});
+    }).catch(error =>{
+        return res.status(404).json({success: false, message: 'User does not exist'});
+    });
 }
 
 function registerUser (req, res){
-    console.log('registerUser called')
     const phone_number = req.body.phone_number;
+    console.log("phone_number: ", phone_number)
 
     models.User.find({
-        phone_number: req.param.phone_number
-    }).then(user => {
-        if (user){
-            return res.status(201).json({success: true, message: 'Ok', phone_number: user.phone_number});
-        } else {
-            models.User.create({
-                phone_number: phone_number,
-                points: 0,
-                name: ""
-            }).then(user => {
-                res.status(201).json({success: true, message: 'Ok', phone_number: user.phone_number});
-            }).catch(function (err) {
-                if (err) res.status(500).json({
-                    success: false,
-                    message: err.message,
-                });
-            });
-
-            models.AccessRights.create({
-                user_phone_number: phone_number,
-                queue_access: false,
-                item_access: false,
-            }).then(user => {
-                res.status(201).json({success: true, message: 'Ok', phone_number: user.phone_number});
-            }).catch(function (err) {
-                if (err) res.status(500).json({
-                    success: false,
-                    message: err.message,
-                });
-            });
-            return res.status(201).json({success: true, message: 'New user created'});
+        where: {
+            phone_number: phon_number
         }
+    }).then(user => {
+        return res.status(201).json({success: true, message: 'Already exist', phone_number: user.phone_number});
+    })
+    
+    models.User.create({
+        phone_number: phone_number,
+        points: 0,
+        name: " "
     })
 
+    models.AccessRights.create({
+        user_phone_number: phone_number,
+        queue_access: false,
+        item_access: false,
+    }).then(user => {
+        console.log("Final log: ", user)
+        return res.status(201).json({success: true, message: 'New user created', phone_number: user.phone_number});
+    })
+
+    // models.User.find({
+    //     where: {
+    //         phone_number: phone_number
+    //     }
+    // }).then(user => {
+    //     if (user){
+    //         return res.status(201).json({success: true, message: 'Ok', phone_number: user.phone_number});
+    //     } else {
+    //         models.User.create({
+    //             phone_number: phone_number,
+    //             points: 0,
+    //             name: " "
+    //         }).then(user => {
+    //             models.AccessRights.create({
+    //                 user_phone_number: phone_number,
+    //                 queue_access: false,
+    //                 item_access: false,
+    //             }).then(user => {
+    //                 console.log("Final log: ", user)
+    //                 return res.status(201).json({success: true, message: 'New user created', phone_number: user.phone_number});
+    //             })
+    //         })
+    //     }
+    // })
 }
 
 function updateName (req, res){
@@ -92,9 +104,7 @@ function updatePoints (req, res){
             phone_number: req.body.phone_number
         }
     }).then(user => {
-        if (user) {
-            original_points = user.points
-        }
+        original_points = user.points
     });
 
     models.User.update({
@@ -123,11 +133,11 @@ function getPoints (req, res){
             phone_number: req.body.phone_number
         }
     }).then(user => {
-        if (user) {
-            points = user.points
-        }
-    });
-    return res.status(200).json({success: true, points: points});
+        points = user.points
+        return res.status(200).json({success: true, points: points});
+    }).catch(error =>{
+        return res.status(500).json({success: false, points: null});
+    })
 }
 
 

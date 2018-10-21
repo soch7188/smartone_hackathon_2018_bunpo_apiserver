@@ -3,20 +3,20 @@ const config = require('../../configs')
 
 
 const sequelize = new Sequelize(
-    config.mysql.database,
-    config.mysql.username,
-    config.mysql.password, {
+  config.mysql.database,
+  config.mysql.username,
+  config.mysql.password, {
 			// For Korean support
-			charset: 'utf8',
-			collate: 'utf8_general_ci',
+    charset: 'utf8',
+    collate: 'utf8_general_ci',
 
-        timezone: '+08:00', //here you can pass timezone
+    timezone: '+08:00', //here you can pass timezone
 
-      logging: config.mysql.logging,
-      host: config.mysql.host,
-      dialect: 'mysql',
+    logging: config.mysql.logging,
+    host: config.mysql.host,
+    dialect: 'mysql',
 
-      define: {
+    define: {
           // don't add the timestamp attributes (updatedAt, createdAt)
           timestamps: true,
 
@@ -40,8 +40,8 @@ const sequelize = new Sequelize(
 const User = sequelize.define('user', {
     id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
     phone_number: Sequelize.STRING,
-	points: Sequelize.INTEGER,
-	name: Sequelize.STRING,
+    points: Sequelize.INTEGER,
+    name: Sequelize.STRING,
 });
 
 const TemperatureFeeling = sequelize.define('temperature_feeling', {
@@ -50,31 +50,31 @@ const TemperatureFeeling = sequelize.define('temperature_feeling', {
 });
 
 const Queue = sequelize.define('queue', {
-	id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
-	floor: Sequelize.STRING,
-	brand: Sequelize.STRING,
+    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
+    floor: Sequelize.STRING,
+    brand: Sequelize.STRING,
     crowdedness: Sequelize.STRING
 });
 
 const Item = sequelize.define('item', {
     id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
-	name: {type: Sequelize.INTEGER, allowNull: false},
-	brand: {type: Sequelize.INTEGER, allowNull: false},
-	price: {type: Sequelize.BOOLEAN, defaultValue: false},
+    name: {type: Sequelize.INTEGER, allowNull: false},
+    brand: {type: Sequelize.INTEGER, allowNull: false},
+    price: {type: Sequelize.BOOLEAN, defaultValue: false},
 });
 
 const AccessRights = sequelize.define('access_rights', {
-	id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
-	user_phone_number: Sequelize.STRING,
-	queue_access: Sequelize.BOOLEAN,
+    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
+    user_phone_number: Sequelize.STRING,
+    queue_access: Sequelize.BOOLEAN,
     item_access: Sequelize.BOOLEAN,
 });
 
 module.exports = {
     sequelize,
     User,
-	Queue,
-	Item,
-	AccessRights,
+    Queue,
+    Item,
+    AccessRights,
     TemperatureFeeling
 };
